@@ -6,7 +6,7 @@ const API = process.env.REACT_APP_API_URL || '';
 export default function App(){
   const [students, setStudents] = useState([]);
   useEffect(()=> {
-    axios.get(`${API}/api/students`).then(r => setStudents(r.data)).catch(()=>{/*ignore*/});
+    axios.get(`${API}/students`).then(r => setStudents(r.data)).catch(()=>{/*ignore*/});
   },[]);
   return (
     <div style={{padding:20}}>
