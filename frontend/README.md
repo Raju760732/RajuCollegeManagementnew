@@ -1,0 +1,1 @@
+Frontend: run `npm install` then `npm start`. Set REACT_APP_API_URL in .env if needed.

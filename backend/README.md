@@ -1,0 +1,1 @@
+Backend: run `npm install` then `npm start`. Set DATABASE_URL env.
