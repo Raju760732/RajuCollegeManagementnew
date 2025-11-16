@@ -20,9 +20,19 @@ export default function AdminLogin() {
       );
 
       if (res.data.success) {
+        // ⭐ Save token to localStorage
+        localStorage.setItem("token", res.data.token);
+
         alert("Login successful!");
-        window.location.href = "/"; // redirect to home or dashboard
+
+        // ⭐ Redirect to your main App page
+        window.location.href = "/";
+        return;
       }
+
+      // If res.data.success is false:
+      setError("Invalid username or password");
+
     } catch (err) {
       setError("Invalid username or password");
     }
@@ -31,6 +41,7 @@ export default function AdminLogin() {
   return (
     <div className="login-container">
       <div className="login-card">
+
         <div className="logo-circle">R</div>
 
         <h2 className="login-title">Admin Login</h2>
@@ -56,6 +67,7 @@ export default function AdminLogin() {
         <button className="login-btn" onClick={handleLogin}>
           Login
         </button>
+
       </div>
     </div>
   );
