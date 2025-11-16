@@ -11,6 +11,20 @@ app.use(express.json());
 // Simple health
 app.get('/', (req, res) => res.send('Backend running'));
 
+// LOGIN ROUTE (Add this part)
+app.post("/api/login", (req, res) => {
+  const { username, password } = req.body;
+
+  const adminUser = process.env.ADMIN_USERNAME;
+  const adminPass = process.env.ADMIN_PASSWORD;
+
+  if (username === adminUser && password === adminPass) {
+    return res.json({ success: true, token: "admin-logged-in" });
+  } else {
+    return res.status(401).json({ success: false, message: "Invalid credentials" });
+  }
+});
+
 // Try to connect sequelize and set up simple routes:
 let Student, sequelize;
 try {
