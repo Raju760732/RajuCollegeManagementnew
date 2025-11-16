@@ -1,4 +1,3 @@
-// src/Dashboard.js
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -11,32 +10,26 @@ export default function Dashboard() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
+
     if (!token) {
-      // If no token, redirect to root where AdminLogin should appear
       window.location.href = "/";
       return;
     }
 
-    setLoading(true);
-    setError("");
-
     axios
       .get(`${API}/api/students`, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       })
       .then((res) => {
         setStudents(Array.isArray(res.data) ? res.data : []);
       })
       .catch((err) => {
         console.error("Fetch students error:", err);
-        if (err.response && (err.response.status === 401 || err.response.status === 403)) {
-          setError("Not authorized. Please login again.");
-          localStorage.removeItem("token");
-          window.location.href = "/";
-        } else {
-          setError("Failed to fetch students.");
-        }
-        setStudents([]);
+        setError("Failed to load students. Please login again.");
+        localStorage.removeItem("token");
+        window.location.href = "/";
       })
       .finally(() => setLoading(false));
   }, []);
@@ -50,16 +43,25 @@ export default function Dashboard() {
     <div style={{ padding: 20 }}>
       <h1>College Management System — Dashboard</h1>
 
-      <div style={{ marginBottom: 12 }}>
-        <button onClick={logout} style={{ padding: "8px 12px", cursor: "pointer" }}>
-          Logout
-        </button>
-      </div>
+      <button
+        onClick={logout}
+        style={{
+          padding: "8px 12px",
+          background: "#1e88e5",
+          border: "none",
+          borderRadius: "5px",
+          color: "white",
+          cursor: "pointer",
+          marginBottom: 20,
+        }}
+      >
+        Logout
+      </button>
 
       <h2>Students</h2>
 
       {loading ? (
-        <p>Loading students...</p>
+        <p>Loading...</p>
       ) : error ? (
         <p style={{ color: "red" }}>{error}</p>
       ) : students.length === 0 ? (
@@ -67,9 +69,7 @@ export default function Dashboard() {
       ) : (
         <ul>
           {students.map((s) => (
-            <li key={s.id ?? s._id ?? s.roll_no}>
-              {s.name} — {s.roll_no}
-            </li>
+            <li key={s.id || s.roll_no}>{s.name} — {s.roll_no}</li>
           ))}
         </ul>
       )}
