@@ -1,5 +1,5 @@
 import React from "react";
-import AdminLogin from "./AdminLogin";
+import AdminLogin from "./adminLogin";
 
 export default function App() {
   return <AdminLogin />;
